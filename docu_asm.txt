@@ -1,0 +1,27 @@
+Opcode table:
+add i1 i2 r    - sets r to i1 + i2
+mul i1 i2 r    - sets r to i1 * i2
+inp r          - sets r to input
+out i          - outputs i
+jfp i1 i2      - jumps to i2 if i1 != 0
+jfz i1 i2      - jumps to i2 if i1 == 0
+ltn i1 i2 r    - sets out to 1 if i1 < i2
+ieq i1 i2 r    - sets out to 1 if i1 == i2
+srb i          - shifts rel base by i
+hlt            - halt 
+lit v          - literal value k
+
+Param modes:
+  : takes the value at mem adr k               
+ - (e.g. 'add 1 2 3' sets mem addr 3 to mem addr 1 + mem addr 2)
+
+ .: takes the literal value k                 
+ - (e.g. 'add l1 l2 3' sets mem addr 3 to 1 + 2)
+
+ %: takes the value at mem adr (rel base + k) 
+ - (e.g. 'add r1 r2 3' sets mem addr 3 to mem addr (rel base + 1) + mem addr (rel base + 2))
+
+Restrictions:
+ i: can take any param mode
+ r: can only take % or standard param mode
+ v: can only take standard param mode

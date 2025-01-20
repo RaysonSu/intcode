@@ -1,0 +1,15 @@
+This program simulates a turing machine.
+
+
+
+
+
+The data is stored as
+[ program ][ variables ][ tm-state ][ tm-state ][ tm-state ] ...
+
+Each tm-state consists of 6 cells like this:
+
+ABCXYZ
+
+the tm-state is divided into 2 sections:
+ABC stores th 

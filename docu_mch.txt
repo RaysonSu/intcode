@@ -1,0 +1,16 @@
+Opcode table:
+ 1: inp1, inp2, out  - sets out to inp1 + inp2
+ 2: inp1, inp2, out  - sets out to inp1 * inp2
+ 3: out              - sets out to input
+ 4: inp              - outputs inp
+ 5: inp1, inp2       - jumps to inp2 if inp1 != 0
+ 6: inp1, inp2       - jumps to inp2 if inp1 == 0
+ 7: inp1, inp2, out  - sets out to 1 if inp1 < inp2
+ 8: inp1, inp2, out  - sets out to 1 if inp1 == inp2
+ 9: inp              - shifts rel base by inp
+99:                  - halt 
+
+Param modes:
+ 0: takes the value at mem adr k
+ 1: takes the literal value k
+ 2: takes the value at mem adr (rel base + k)

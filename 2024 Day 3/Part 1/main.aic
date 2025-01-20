@@ -1,0 +1,89 @@
+start:
+inp char_cur
+add .0 .0 int_x
+add .0 .0 int_y
+ieq char_cur char_m bool_check
+jfp bool_check .m
+ieq char_cur char_eof bool_check
+jfp bool_check .end
+jfp .1 .start
+
+m:
+inp char_cur
+ieq char_cur char_u bool_check
+jfp bool_check .u
+ieq char_cur char_eof bool_check
+jfp bool_check .end
+jfp .1 .start
+
+u:
+inp char_cur
+ieq char_cur char_l bool_check
+jfp bool_check .l
+ieq char_cur char_eof bool_check
+jfp bool_check .end
+jfp .1 .start
+
+l:
+inp char_cur
+ieq char_cur char_lp bool_check
+jfp bool_check .x
+ieq char_cur char_eof bool_check
+jfp bool_check .end
+jfp .1 .start
+
+x:
+inp char_cur
+ieq char_cur char_eof bool_check
+jfp bool_check .end
+ieq char_cur char_cm bool_check
+jfp bool_check .y
+ltn char_cur char_0 bool_check
+jfp bool_check .start
+ltn char_9 char_cur bool_check
+jfp bool_check .start
+add char_cur .-48 char_cur
+mul int_x .10 int_x
+add int_x char_cur int_x
+jfp .1 .x
+
+y:
+inp char_cur
+ieq char_cur char_eof bool_check
+jfp bool_check .end
+ieq char_cur char_rp bool_check
+jfp bool_check .rp
+ltn char_cur char_0 bool_check
+jfp bool_check .start
+ltn char_9 char_cur bool_check
+jfp bool_check .start
+add char_cur .-48 char_cur
+mul int_y .10 int_y
+add int_y char_cur int_y
+jfp .1 .y
+
+rp:
+mul int_x int_y int_tmp
+add int_total int_tmp int_total
+jfp .1 .start
+
+end:
+out int_total
+hlt
+
+char_cur: lit 0
+bool_check: lit 0
+int_total: lit 0
+int_x: lit 0
+int_y: lit 0
+int_tmp: lit 0
+
+char_eof: lit 4
+char_m: lit 109
+char_u: lit 117
+char_l: lit 108
+char_lp: lit 40
+char_rp: lit 41
+char_cm: lit 44
+char_0: lit 48
+char_9: lit 57

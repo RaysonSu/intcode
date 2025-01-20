@@ -1,0 +1,158 @@
+srb .instuctions
+srb .1
+
+parse:
+inp tmp_wrt
+inp tmp_mov
+inp tmp_jmp
+ieq .49 tmp_wrt %0
+ieq .82 tmp_mov %1
+add .-65 tmp_jmp %2
+inp tmp_wrt
+inp tmp_mov
+inp tmp_jmp
+ieq .49 tmp_wrt %3
+ieq .82 tmp_mov %4
+add .-65 tmp_jmp %5
+inp tmp_tmp
+ieq .95 tmp_tmp tmp_cmp
+srb .6
+jfz tmp_cmp .run
+jfp .1 .parse
+
+run:
+jfz debug .finished_display
+
+display:
+out state
+out location
+out tape
+out left_shifts
+out .-1
+
+finished_display:
+add .0 .-1 tmp_read
+add .0 tape tmp_tape
+add .0 location tmp_location
+add .0 .0 tmp_delta
+mul .-1 tmp_location tmp_location
+add tmp_location tmp_location %0
+add location location tmp_double_loc
+add .1 steps steps
+
+create_pow_2:
+add %0 %0 %1
+mul .-1 %1 tmp_tmp
+ltn tmp_tmp tape tmp_cmp
+srb .1
+add .-1 tmp_delta tmp_delta
+jfp tmp_cmp .create_pow_2
+
+reading:
+srb .-1
+add .1 tmp_delta tmp_delta
+add %1 tmp_tape tmp_cmp
+mul .-1 tmp_cmp tmp_cmp
+ltn .0 tmp_cmp tmp_cmp
+jfp tmp_cmp .no_reduce
+
+reduce:
+add %1 tmp_tape tmp_tape
+
+no_reduce:
+ltn tmp_tape tmp_double_loc tmp_cmp
+jfz tmp_cmp .reading
+ltn tmp_tape location tmp_read
+ieq .0 tmp_read tmp_read
+
+finished_reading:
+srb tmp_delta
+add .0 state tmp_offset
+mul .6 tmp_offset tmp_offset
+ieq .1 tmp_read tmp_read
+mul .3 tmp_read tmp_tmp
+add tmp_tmp tmp_offset tmp_offset
+add tmp_cmp tmp_offset tmp_offset
+add .instuctions tmp_offset tmp_offset
+add .0 tmp_offset read_wrt_adr
+
+read_wrt_adr+2:
+add .0 -1 read_wrt
+add .1 tmp_offset read_mov_adr
+
+read_mov_adr+2:
+add .0 -1 read_mov
+add .2 tmp_offset read_jmp_adr
+
+read_jmp_adr+2:
+add .0 -1 read_jmp
+
+ltn read_jmp .0 tmp_cmp
+jfp tmp_cmp .halt
+ieq tmp_read read_wrt tmp_cmp
+jfp tmp_cmp .finished_writing
+ltn tmp_read read_wrt tmp_cmp
+jfp tmp_cmp .wrt_1
+
+sub_1:
+add .0 location tmp_tmp
+mul .-1 tmp_tmp tmp_tmp
+add tmp_tmp tape tape
+jfp .1 .finished_writing
+
+wrt_1:
+add location tape tape
+jfp .1 .finished_writing
+
+finished_writing:
+jfp read_mov .move_right
+
+move_left:
+mul .2 tape tape
+add .1 left_shifts left_shifts
+jfp .1 .finished_moving
+
+move_right:
+mul .2 location location
+
+finished_moving:
+add .0 read_jmp state
+jfp .1 .run
+
+halt:
+jfp debug .really_halt
+
+show_output:
+out tape
+out left_shifts
+
+really_halt:
+hlt
+
+
+tmp_wrt: lit 0
+tmp_mov: lit 0
+tmp_jmp: lit 0
+tmp_tmp: lit 0
+tmp_cmp: lit 0
+tmp_tape: lit 0
+tmp_read: lit 0
+tmp_offset: lit 0
+tmp_location: lit 0
+tmp_double_loc: lit 0
+tmp_delta: lit 0
+
+read_wrt: lit 0
+read_mov: lit 0
+read_jmp: lit 0
+
+eof: lit 4
+debug: lit 1
+
+steps: lit 0
+state: lit 0
+location: lit 1
+tape: lit 0
+left_shifts: lit 0
+
+instuctions: lit 0

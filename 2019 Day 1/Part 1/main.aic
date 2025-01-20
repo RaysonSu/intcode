@@ -1,0 +1,42 @@
+start:
+inp calc_tmp
+add calc_tmp .-10 jmp_tmp
+jfz jmp_tmp .row_comp
+add calc_tmp .-4 jmp_tmp
+ieq calc_tmp .4 is_eof
+jfz jmp_tmp .row_comp
+    
+parsedigit:
+add calc_tmp .-48 calc_tmp
+mul subtotal .10 subtotal
+add subtotal calc_tmp subtotal
+jfp .1 .start
+
+row_comp:
+add .0 .0 jmp_tmp
+ltn subtotal .3 jmp_tmp
+jfp jmp_tmp .div_comp
+add subtotal .-3 subtotal
+add div_tmp .1 div_tmp
+jfp .1 .row_comp
+
+div_comp:
+add div_tmp .-2 div_tmp
+ltn div_tmp .0 jmp_tmp
+jfp jmp_tmp .skipped
+add total div_tmp total
+
+skipped:
+add .0 .0 calc_tmp
+add .0 .0 div_tmp
+add .0 .0 subtotal
+jfz is_eof .start
+out total
+hlt
+
+calc_tmp: lit 0
+div_tmp: lit 0
+jmp_tmp: lit 0
+is_eof: lit 0
+subtotal: lit 0
+total: lit 0
